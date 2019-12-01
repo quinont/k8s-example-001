@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+
+  db:
+    build: db
+    image: dockersamples/k8s-wordsmith-db
+
+  words:
+    build: words
+    image: dockersamples/k8s-wordsmith-api
+    deploy:
+      replicas: 5
+
+  app2:
+    image: app2:1
+    deploy:
+      replicas: 5
+
+  web:
+    build: web
+    image: k8s-wordsmith-web:1
+    ports:
+     - "8080:80"
