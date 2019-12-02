@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app2
+  name: app2-actual
   namespace: app2
   labels:
-    app: app2
+    app: app2-actual
 spec:
   ports:
   - port: 5000
@@ -12,8 +12,22 @@ spec:
   selector:
     app: app2
 ---
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: app2-nuevo
+  namespace: app2
+  labels:
+    app: app2-nuevo
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: app2
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: app2
   namespace: app2
@@ -31,4 +45,18 @@ spec:
         ports:
         - containerPort: 5000
           name: app2
+  strategy:
+    blueGreen: 
+      # activeService specifies the service to update with the new template hash at time of promotion.
+      # This field is mandatory for the blueGreen update strategy.
+      activeService: app2-actual
+      # previewService specifies the service to update with the new template hash before promotion.
+      # This allows the preview stack to be reachable without serving production traffic.
+      # This field is optional.
+      previewService: app2-nuevo
+      # autoPromotionEnabled disables automated promotion of the new stack by pausing the rollout
+      # immediately before the promotion. If omitted, the default behavior is to promote the new
+      # stack as soon as the ReplicaSet are completely ready/available.
+      # Rollouts can be resumed using: `kubectl argo rollouts resume ROLLOUT`
+      autoPromotionEnabled: false
 
