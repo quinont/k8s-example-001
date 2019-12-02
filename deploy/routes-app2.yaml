@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: app2-virtualservice
+  namespace: app2
+spec:
+  hosts:
+    - app2
+  http:
+  - match:
+    - headers:
+        test:
+          exact: si
+    route:
+    - destination:
+        host: app2-nuevo
+        subset: v1
+  - route:
+    - destination:
+        host: app2
+        subset: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: app2-destination
+  namespace: app2
+spec:
+  host: app2
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: app2-nuevo-destination
+  namespace: app2
+spec:
+  host: app2-nuevo
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+
