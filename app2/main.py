@@ -7,9 +7,9 @@ app = Flask(__name__)
 api = Api(app)
 
 TODOS = {
-    'msj1': {'word': 'Buenos D-v2'},
-    'msj2': {'word': 'Buas Nes-v2'},
-    'msj3': {'word': 'Como est-v2'},
+    'msj1': {'word': 'Buenos D-v4'},
+    'msj2': {'word': 'Buas Nes-v4'},
+    'msj3': {'word': 'Como est-v4'},
 }
 
 def abort_if_todo_doesnt_exist(todo_id):
