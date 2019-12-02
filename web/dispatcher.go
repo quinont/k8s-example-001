@@ -43,17 +43,36 @@ func (f *forwarder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	url := fmt.Sprintf("http://%s:%d%s", ip, f.port, r.URL.Path)
 	log.Printf("%s Calling %s", r.URL.Path, url)
 
-	if err = copy(url, ip, w); err != nil {
+	test := r.Header.Get("test")
+
+	if err = copy(url, ip, w, test); err != nil {
 		log.Println("Error", err)
 		http.Error(w, err.Error(), 500)
 		return
 	}
 }
 
-func copy(url, ip string, w http.ResponseWriter) error {
-	resp, err := http.Get(url)
-	if err != nil {
-		return err
+func copy(url, ip string, w http.ResponseWriter, test string) error {
+	var resp *http.Response
+	var err_connexion error
+
+	if test == "si" {
+		timeout := time.Duration(5 * time.Second)
+		client := http.Client{
+			Timeout: timeout,
+		}
+		request, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return err
+		}
+		request.Header.Add("test", "si")
+		resp, err_connexion = client.Do(request)
+	} else {
+		resp, err_connexion = http.Get(url)
+	}
+
+	if err_connexion != nil {
+		return err_connexion
 	}
 
 	w.Header().Set("source", ip)
