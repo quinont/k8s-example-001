@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: gcr.io/sandbox-latam-xp/front:latest
+        image: quinont/web:1
         ports:
         - containerPort: 80
           name: words-web

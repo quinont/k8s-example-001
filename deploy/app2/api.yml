@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: gcr.io/your-gcp-proyect/words:latest
+        image: quinont/app2:1
         ports:
         - containerPort: 8080
           name: app2

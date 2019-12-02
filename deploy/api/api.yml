@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: words
-        image: gcr.io/your-gcp-proyect/words:latest
+        image: quinont/words:1
         ports:
         - containerPort: 8080
           name: api
