@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app2-actual
+  name: app2
   namespace: app2
   labels:
-    app: app2-actual
+    app: app2
 spec:
   ports:
   - port: 5000
@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: quinont/app2:2
+        image: quinont/app2:1
         ports:
         - containerPort: 5000
           name: app2
