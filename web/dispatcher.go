@@ -15,7 +15,7 @@ func main() {
 
 	fwd := &forwarder{"words.api.svc.cluster.local", 8080}
 	http.Handle("/words/", http.StripPrefix("/words", fwd))
-	fwd2 := &forwarder{"app2", 5000}
+	fwd2 := &forwarder{"app2", 80}
 	http.Handle("/app2/", http.StripPrefix("/app2", fwd2))
 	http.Handle("/", http.FileServer(http.Dir("static")))
 
