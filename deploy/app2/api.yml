@@ -44,7 +44,7 @@ spec:
     spec:
       containers:
       - name: app2
-        image: quinont/app2:5
+        image: quinont/app2:6
         ports:
         - containerPort: 5000
           name: app2
