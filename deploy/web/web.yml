@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: quinont/web:2
+        image: quinont/web:3
         ports:
         - containerPort: 80
           name: words-web
